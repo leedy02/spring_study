@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 //서비스에서 비즈니스 로직을 만듬
-@Service
 public class MemberService {
 
     private final MemberRepository memberRepository;

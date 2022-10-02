@@ -1,26 +1,45 @@
 package hello.hellospring.controller;
 
+import hello.hellospring.domain.Member;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MemberController {
-    //¿ÜºÎ ¿äÃ»À» ¹ŞÀ½ controller¸¦ ÅëÇØ¼­
+    //ï¿½Üºï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ controllerï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½
     private MemberService memberService;
-    //@Autowired private MemberService memberService; (DI) ÇÊµå ÁÖÀÔ¹æ½Ä -> Áß°£¿¡ ¹Ù²Ü¼ö ÀÖ´Â ¹æ¹ıÀÌ ¾øÀ½
+    //@Autowired private MemberService memberService; (DI) ï¿½Êµï¿½ ï¿½ï¿½ï¿½Ô¹ï¿½ï¿½ -> ï¿½ß°ï¿½ï¿½ï¿½ ï¿½Ù²Ü¼ï¿½ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
     @Autowired
     public MemberController(MemberService memberService) {
-        //controller, service ¿¬°á½ÃÄÑÁÖ´Â °úÁ¤ -> Dependency Injection
-        //Dependency injection ¹æ¹ı Áß ÇÏ³ª 1)»ı¼ºÀÚ injection 2) ÇÊµå injection 3) setter ÁÖÀÔ
+        //controller, service ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ -> Dependency Injection
+        //Dependency injection ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½ 1)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ injection 2) ï¿½Êµï¿½ injection 3) setter ï¿½ï¿½ï¿½ï¿½
         this.memberService = memberService;
     }
-    //¿äÁò ¼±È£ÇÏ´Â ½ºÅ¸ÀÏÀº »ı¼º½Ã¿¡ ¼¼ÆÃµÇ´Â ¹æ½Ä constructor °³¹ß½Ã Á¢±ÙµÇÁö ¸»¾Æ¾ßÇÒ ÇÔ¼ö Á¢±ÙÇÏÁö ¸øÇÏµµ·Ï
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ï¿½Ï´ï¿½ ï¿½ï¿½Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ ï¿½ï¿½ï¿½ÃµÇ´ï¿½ ï¿½ï¿½ï¿½ constructor ï¿½ï¿½ï¿½ß½ï¿½ ï¿½ï¿½ï¿½Ùµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Æ¾ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ïµï¿½ï¿½ï¿½
 
     //@Autowired
-    //setter injection ¹æ½Ä -> ´©±º°¡ memService È£Ãâ½Ã publicÇÏ°Ô ³ëÃâµÇ¾î Àß¸ø ¹Ù²Ù¸é ¹®Á¦ ¹ß»ıÇÒ ¼ö ÀÖÀ½
+    //setter injection ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ memService È£ï¿½ï¿½ï¿½ publicï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½Ç¾ï¿½ ï¿½ß¸ï¿½ ï¿½Ù²Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     //public void setMemberService() {
     //    this.memberService = memberService;
     //}
+
+    @GetMapping("/members/new")
+    public String createForm(){
+        //ì¡°íšŒ
+        return "members/createMemberForm";
+    }
+
+    @PostMapping("/members/new")
+    public String create(MemberForm form){
+        //ë°ì´í„° ë³´ë‚´ê¸°
+        Member member = new Member();
+        member.setName(form.getName());
+
+        memberService.join(member);
+        return "redirect:/";
+    }
 }
